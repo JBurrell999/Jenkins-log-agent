@@ -1,6 +1,15 @@
 #!/usr/bin/env python3
-import argparse, os, re
-from chain import build_chain
+import argparse, os, re, sys
+from pathlib import Path
+from analyzer.chain import build_chain
+
+
+# Ensure repo root is on sys.path so "analyzer" is importable
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from analyzer.chain import build_chain  # now this resolves
 
 ERROR_PAT = re.compile(
     r"(Traceback|ERROR|Exception|FAIL|ModuleNotFoundError|AssertionError|Build step '.*' marked build as failure)",
